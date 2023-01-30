@@ -68,8 +68,8 @@
 				oDomElement.addEventListener("keyup", this._handleKeyUp, oOptions.captureEvents);
 			}
 			if (oOptions.reactToKeydown === true || oOptions.scanButtonKeyCode !== false){	
-				oDomElement.addEventListener("input", this._handleInput, oOptions.captureEvents);
-				oDomElement.addEventListener("keydown", this._handleInput, oOptions.captureEvents);
+				oDomElement.addEventListener("input", this._handleKeyDown, oOptions.captureEvents);
+				oDomElement.addEventListener("keydown", this._handleKeyDown, oOptions.captureEvents);
 			}
 			return this;
 		},
