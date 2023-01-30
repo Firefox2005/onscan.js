@@ -1,10 +1,10 @@
-# onScan.js
+# onScan.js [mobile]
 
-Framework-agnostic JavaScript scan-events for hardware barcode scanners.
+Framework-agnostic JavaScript scan-events for hardware barcode scanners. Supports mobile devices.
 
 ## Quick start
 
-1. Install via `npm install onscan.js` or `bower install onscan-js`
+1. Clone
 2. Include `onscan.min.js` in your script
 3. Add the following initilization script to run on page/view load.
 
@@ -16,13 +16,6 @@ document.addEventListener('scan', function(sScancode, iQuantity) {
     alert(iQuantity + 'x ' + sScancode); 
 });
 ```
-
-## Demo & Playground
-
-[Online demo](https://a.kabachnik.info/onscan-js-playground.html) 
-
-A similar demo is available within the 
-package: just load `index.html` from the lib's folder to play around with the settings on your own server.
 
 ## Requirements
 
@@ -36,6 +29,8 @@ package: just load `index.html` from the lib's folder to play around with the se
 onScan.js attempts to distinguish between regular input and scan input by measuring input spead, 
 looking for certain prefix and suffix characters, etc. If a scan is detected, it triggers a custom
 JavaScript event called `scan` for the DOM element specified during initialization.
+
+In contrast to onScan.js this version supports mobile devices by using the input event instead of/ combined the keydown event.
 
 There are lot's of options to fine-tune detection of specific scanner models.
 

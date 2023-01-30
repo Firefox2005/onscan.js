@@ -68,7 +68,8 @@
 				oDomElement.addEventListener("keyup", this._handleKeyUp, oOptions.captureEvents);
 			}
 			if (oOptions.reactToKeydown === true || oOptions.scanButtonKeyCode !== false){	
-				oDomElement.addEventListener("keydown", this._handleKeyDown, oOptions.captureEvents);
+				oDomElement.addEventListener("input", this._handleInput, oOptions.captureEvents);
+				oDomElement.addEventListener("keydown", this._handleInput, oOptions.captureEvents);
 			}
 			return this;
 		},
@@ -86,6 +87,7 @@
 			if (oDomElement.scannerDetectionData.options.scanButtonKeyCode !== false){
 				oDomElement.removeEventListener("keyup", this._handleKeyUp);
 			}
+			oDomElement.removeEventListener("input", this._handleKeyDown);
 			oDomElement.removeEventListener("keydown", this._handleKeyDown);
 			
 			// clearing data off DomElement
@@ -368,10 +370,24 @@
 		 * @return void
 		 */
 		_handleKeyDown: function(e){
-			var iKeyCode = onScan._getNormalizedKeyNum(e);
-			var oOptions = this.scannerDetectionData.options;
+			var currentChar;
+			var iKeyCode;
+	  		var oOptions = this.scannerDetectionData.options;
 			var oVars = this.scannerDetectionData.vars;
 			var bScanFinished = false;
+
+			if (e.type === "input") {
+				currentChar = e.target.value.at(-1);
+				iKeyCode = e.target.value
+				  .toUpperCase()
+				  .charCodeAt(e.target.value.length - 1);
+			} else {
+				if (e.key === "Enter") {
+				  iKeyCode = onScan._getNormalizedKeyNum(e);
+				} else {
+				  return;
+				}
+			}
 			
 			if (oOptions.onKeyDetect.call(this, iKeyCode, e) === false) {
 				return;
@@ -410,7 +426,13 @@
 					
 				// Otherwise, just add the character to the scan string we're building	
 				default:
-					var character = oOptions.keyCodeMapper.call(this, e);
+					var character;
+					if (currentChar != null) {
+					  character = currentChar;
+					} else {
+					  character = oOptions.keyCodeMapper.call(this, e);
+					}
+					
 					if (character === null){
 						return;
 					}
